@@ -263,6 +263,7 @@ export default function CinematicSceneShowcase() {
           // { label: "Variation 3", href: "#", current: false },
         ]}
         tags={["three.js", "R3F", "gsap", "3D"]}
+        tagsLink={["https://tympanus.net/codrops/hub/tag/three.js/", "https://tympanus.net/codrops/hub/tag/r3f/", "https://tympanus.net/codrops/hub/tag/gsap/", "https://tympanus.net/codrops/hub/tag/3d/"]}
       />
       <div className="fixed inset-0 w-full h-screen max-md:h-dvh z-0">
         <Canvas

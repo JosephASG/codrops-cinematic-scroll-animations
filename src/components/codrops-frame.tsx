@@ -13,6 +13,7 @@ interface CodropsFrameProps {
         current?: boolean
     }>
     tags?: string[]
+    tagsLink?: string[]
 }
 
 export function CodropsFrame({
@@ -24,6 +25,7 @@ export function CodropsFrame({
         { label: "Demo 2", href: "#", current: false },
     ],
     tags = ["gsap", "scrolltrigger", "ogl", "webgl", "3d"],
+    tagsLink = [],
 }: CodropsFrameProps) {
     return (
         <>
@@ -65,9 +67,9 @@ export function CodropsFrame({
             {tags && tags.length > 0 && (
                 <div className="fixed bottom-6 max-md:left-1/2 max-md:-translate-x-1/2 left-6 z-50 flex gap-2 pointer-events-auto mix-blend-difference max-md:justify-between max-md:w-full max-md:px-6">
                     {tags.map((tag, index) => (
-                        <span key={index} className="text-xs px-2 py-1 text-white/60 uppercase font-bold">
+                        <a href={tagsLink[index]} target="_blank" key={index} className="text-xs px-2 py-1 text-white/60 uppercase font-bold">
                             #{tag}
-                        </span>
+                        </a>
                     ))}
                 </div>
             )}

@@ -393,6 +393,7 @@ export function CylinderCarousel() {
                     { label: "Demo 2", href: "/variant-2", current: false },
                 ]}
                 tags={["gsap", "ogl", "webgl", "scroll"]}
+                tagsLink={["https://tympanus.net/codrops/hub/tag/gsap/", "https://tympanus.net/codrops/hub/tag/ogl/", "https://tympanus.net/codrops/hub/tag/webgl/", "https://tympanus.net/codrops/hub/tag/scroll/"]}
             />
 
             <div className="fixed inset-0 w-full h-screen z-0">

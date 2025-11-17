@@ -1,68 +1,68 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client"
+'use client';
 
-import { useEffect, useRef, useState } from "react"
-import { Canvas, useFrame, useThree } from "@react-three/fiber"
-import { useGLTF, PerspectiveCamera } from "@react-three/drei"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { ScrollSmoother } from "gsap/ScrollSmoother"
-import { SplitText } from "gsap/SplitText"
+import { useEffect, useRef, useState } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { useGLTF, PerspectiveCamera } from '@react-three/drei';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollSmoother } from 'gsap/ScrollSmoother';
+import { SplitText } from 'gsap/SplitText';
 
-import { getPositionClasses } from "@/lib/variant-2/utils"
-import { scenePerspectives } from "@/lib/variant-2/scene-data"
+import { getPositionClasses } from '@/lib/variant-2/utils';
+import { scenePerspectives } from '@/lib/variant-2/scene-data';
 
-import * as THREE from "three"
-import Loader from "@/components/loader"
-import { CodropsFrame } from "@/components/codrops-frame"
+import * as THREE from 'three';
+import Loader from '@/components/loader';
+import { CodropsFrame } from '@/components/codrops-frame';
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText)
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
 }
 
 function CyberpunkBuilding() {
-  const { scene } = useGLTF("/cyberpunk_skyscraper.glb")
+  const { scene } = useGLTF('/cyberpunk_skyscraper.glb');
 
   useEffect(() => {
     if (scene) {
-      scene.scale.set(3, 3, 3)
-      scene.position.set(0, 0, 0)
+      scene.scale.set(3, 3, 3);
+      scene.position.set(0, 0, 0);
     }
-  }, [scene])
+  }, [scene]);
 
-  return <primitive object={scene} />
+  return <primitive object={scene} />;
 }
 
 function AnimatedCamera({ cameraAnimRef, targetAnimRef }: any) {
-  const cameraRef = useRef<any>(null)
-  const { set } = useThree()
+  const cameraRef = useRef<any>(null);
+  const { set } = useThree();
 
   useEffect(() => {
     if (cameraRef.current) {
-      set({ camera: cameraRef.current })
+      set({ camera: cameraRef.current });
     }
-  }, [set])
+  }, [set]);
 
   useFrame(() => {
     if (cameraRef.current) {
-      cameraRef.current.position.set(cameraAnimRef.current.x, cameraAnimRef.current.y, cameraAnimRef.current.z)
-      cameraRef.current.lookAt(targetAnimRef.current.x, targetAnimRef.current.y, targetAnimRef.current.z)
+      cameraRef.current.position.set(cameraAnimRef.current.x, cameraAnimRef.current.y, cameraAnimRef.current.z);
+      cameraRef.current.lookAt(targetAnimRef.current.x, targetAnimRef.current.y, targetAnimRef.current.z);
     }
-  })
+  });
 
-  return <PerspectiveCamera ref={cameraRef} makeDefault fov={45} near={1} far={1000} position={[0, 5, 10]} />
+  return <PerspectiveCamera ref={cameraRef} makeDefault fov={45} near={1} far={1000} position={[0, 5, 10]} />;
 }
 
 function Scene({ cameraAnimRef, targetAnimRef }: any) {
-  const { scene } = useThree()
+  const { scene } = useThree();
 
   useEffect(() => {
     if (scene) {
-      const fogColor = new THREE.Color("#0a0a0a")
-      scene.fog = new THREE.Fog(fogColor, 12, 28)
-      scene.background = new THREE.Color("#0a0a0a")
+      const fogColor = new THREE.Color('#0a0a0a');
+      scene.fog = new THREE.Fog(fogColor, 12, 28);
+      scene.background = new THREE.Color('#0a0a0a');
     }
-  }, [scene])
+  }, [scene]);
 
   return (
     <>
@@ -75,34 +75,34 @@ function Scene({ cameraAnimRef, targetAnimRef }: any) {
 
       <CyberpunkBuilding />
     </>
-  )
+  );
 }
 
 export default function CinematicSceneShowcase() {
-  document.title = "Cinematic Scroll Animations | Codrops | Demo 2"
-  const containerRef = useRef<HTMLDivElement>(null)
-  const smoothWrapperRef = useRef<HTMLDivElement>(null)
-  const smoothContentRef = useRef<HTMLDivElement>(null)
-  const textRefs = useRef<(HTMLDivElement | null)[]>([])
-  const cameraAnimRef = useRef({ x: -20, y: 0, z: 0 })
-  const targetAnimRef = useRef({ x: 0, y: 15, z: 0 })
-  const rotationAnimRef = useRef({ useRotation: false })
-  const [isLoading, setIsLoading] = useState(true)
-  const splitInstancesRef = useRef<SplitText[]>([])
-  const progressBarRef = useRef<HTMLDivElement>(null)
-  const progressTextRef = useRef<HTMLSpanElement>(null)
+  document.title = 'Cinematic Scroll Animations | Codrops | Demo 2';
+  const containerRef = useRef<HTMLDivElement>(null);
+  const smoothWrapperRef = useRef<HTMLDivElement>(null);
+  const smoothContentRef = useRef<HTMLDivElement>(null);
+  const textRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const cameraAnimRef = useRef({ x: -20, y: 0, z: 0 });
+  const targetAnimRef = useRef({ x: 0, y: 15, z: 0 });
+  const rotationAnimRef = useRef({ useRotation: false });
+  const [isLoading, setIsLoading] = useState(true);
+  const splitInstancesRef = useRef<SplitText[]>([]);
+  const progressBarRef = useRef<HTMLDivElement>(null);
+  const progressTextRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    if (!containerRef.current || !smoothWrapperRef.current || !smoothContentRef.current) return
+    if (!containerRef.current || !smoothWrapperRef.current || !smoothContentRef.current) return;
 
-    console.log("[v0] Initializing animations")
+    console.log('[v0] Initializing animations');
 
     const loadingTimer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1500)
+      setIsLoading(false);
+    }, 1500);
 
     document.fonts.ready.then(() => {
-      console.log("[v0] Fonts loaded, initializing SplitText")
+      console.log('[v0] Fonts loaded, initializing SplitText');
 
       ScrollSmoother.create({
         wrapper: smoothWrapperRef.current!,
@@ -110,30 +110,30 @@ export default function CinematicSceneShowcase() {
         smooth: 4,
         effects: false,
         smoothTouch: 2,
-      })
+      });
 
-      console.log("[v0] ScrollSmoother created")
+      console.log('[v0] ScrollSmoother created');
 
-      const setProgressWidth = gsap.quickSetter(progressBarRef.current, "width", "%")
-      const setProgressText = gsap.quickSetter(progressTextRef.current, "textContent")
+      const setProgressWidth = gsap.quickSetter(progressBarRef.current, 'width', '%');
+      const setProgressText = gsap.quickSetter(progressTextRef.current, 'textContent');
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: "top top",
-          end: "bottom bottom",
+          start: 'top top',
+          end: 'bottom bottom',
           scrub: true,
           onUpdate: (self) => {
-            const progress = self.progress * 100
-            setProgressWidth(progress)
-            setProgressText(Math.round(progress).toString().padStart(3, "0") + "%")
+            const progress = self.progress * 100;
+            setProgressWidth(progress);
+            setProgressText(Math.round(progress).toString().padStart(3, '0') + '%');
           },
         },
-      })
+      });
 
       scenePerspectives.forEach((perspective) => {
-        const startProgress = perspective.scrollProgress.start / 100
-        const endProgress = perspective.scrollProgress.end / 100
+        const startProgress = perspective.scrollProgress.start / 100;
+        const endProgress = perspective.scrollProgress.end / 100;
 
         tl.to(
           cameraAnimRef.current,
@@ -142,10 +142,10 @@ export default function CinematicSceneShowcase() {
             y: perspective.camera.y,
             z: perspective.camera.z,
             duration: endProgress - startProgress,
-            ease: "none",
+            ease: 'none',
           },
-          startProgress,
-        )
+          startProgress
+        );
 
         tl.to(
           targetAnimRef.current,
@@ -154,39 +154,39 @@ export default function CinematicSceneShowcase() {
             y: perspective.target.y,
             z: perspective.target.z,
             duration: endProgress - startProgress,
-            ease: "none",
+            ease: 'none',
           },
-          startProgress,
-        )
+          startProgress
+        );
 
         tl.to(
           rotationAnimRef.current,
           {
             useRotation: false,
             duration: endProgress - startProgress,
-            ease: "none",
+            ease: 'none',
           },
-          startProgress,
-        )
-      })
+          startProgress
+        );
+      });
 
-      console.log("[v0] Camera timeline created")
+      console.log('[v0] Camera timeline created');
 
       scenePerspectives.forEach((perspective, index) => {
-        const textEl = textRefs.current[index]
+        const textEl = textRefs.current[index];
         if (textEl) {
           if (perspective.hideText) {
-            gsap.set(textEl, { opacity: 0, pointerEvents: "none" })
-            return
+            gsap.set(textEl, { opacity: 0, pointerEvents: 'none' });
+            return;
           }
 
-          const titleEl = textEl.querySelector("h2")
-          const subtitleEl = textEl.querySelector("p")
+          const titleEl = textEl.querySelector('h2');
+          const subtitleEl = textEl.querySelector('p');
 
           if (titleEl && subtitleEl) {
-            const titleSplit = new SplitText(titleEl, { type: "chars" })
-            const subtitleSplit = new SplitText(subtitleEl, { type: "chars" })
-            splitInstancesRef.current.push(titleSplit, subtitleSplit)
+            const titleSplit = new SplitText(titleEl, { type: 'chars' });
+            const subtitleSplit = new SplitText(subtitleEl, { type: 'chars' });
+            splitInstancesRef.current.push(titleSplit, subtitleSplit);
 
             const textTimeline = gsap.timeline({
               scrollTrigger: {
@@ -195,85 +195,90 @@ export default function CinematicSceneShowcase() {
                 end: `${perspective.scrollProgress.end}% top`,
                 scrub: 0.5,
               },
-            })
+            });
 
             if (index === 0) {
               gsap.set([titleSplit.chars, subtitleSplit.chars], {
                 x: 0,
                 opacity: 1,
-              })
+              });
 
-              textTimeline.to([titleSplit.chars, subtitleSplit.chars], {
+              textTimeline.to([subtitleSplit.chars, titleSplit.chars], {
                 x: 100,
                 opacity: 0,
                 duration: 1,
-                stagger: 0.02,
-                ease: "power2.in",
-              })
+                stagger: -0.02,
+                ease: 'power2.in',
+              });
             } else {
-              const isLastPerspective = index === scenePerspectives.length - 1
+              const isLastPerspective = index === scenePerspectives.length - 1;
 
               textTimeline
                 .fromTo(
-                  [titleSplit.chars, subtitleSplit.chars],
+                  [subtitleSplit.chars, titleSplit.chars],
                   { x: -100, opacity: 0 },
                   {
                     x: 0,
                     opacity: 1,
                     duration: isLastPerspective ? 0.2 : 0.25,
-                    stagger: isLastPerspective ? 0.01 : 0.02,
-                    ease: "power2.out",
-                  },
+                    stagger: isLastPerspective ? -0.01 : -0.02,
+                    ease: 'power2.out',
+                  }
                 )
                 .to({}, { duration: isLastPerspective ? 1.0 : 0.5 })
-                .to([titleSplit.chars, subtitleSplit.chars], {
+                .to([subtitleSplit.chars, titleSplit.chars], {
                   x: 100,
                   opacity: 0,
                   duration: 0.25,
-                  stagger: 0.02,
-                  ease: "power2.in",
-                })
+                  stagger: -0.02,
+                  ease: 'power2.in',
+                });
             }
           }
         }
-      })
+      });
 
-      console.log("[v0] SplitText animations created")
-    })
+      console.log('[v0] SplitText animations created');
+    });
 
     return () => {
-      console.log("[v0] Cleaning up animations")
-      clearTimeout(loadingTimer)
-      splitInstancesRef.current.forEach((split) => split.revert())
-      splitInstancesRef.current = []
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
-    }
-  }, [])
+      console.log('[v0] Cleaning up animations');
+      clearTimeout(loadingTimer);
+      splitInstancesRef.current.forEach((split) => split.revert());
+      splitInstancesRef.current = [];
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
+  }, []);
 
   return (
     <>
       <Loader isLoading={isLoading} className="bg-[#0a0a0a]" classNameLoader="bg-[#f2f2f2]" />
       <CodropsFrame
-        demoTitle="Cinematic Scene Showcase — A GSAP + Three.js Scroll Experience"
+        demoTitle="Cinematic 3D Scroll Experiences with GSAP"
         articleUrl="https://tympanus.net/codrops/?p=12345"
         githubUrl="https://github.com/codrops"
         demos={[
-          { label: "Demo 1", href: "/", current: false },
-          { label: "Demo 2", href: "/variant-2", current: true },
+          { label: 'Demo 1', href: '/', current: false },
+          { label: 'Demo 2', href: '/variant-2', current: true },
           // { label: "Variation 3", href: "#", current: false },
         ]}
-        tags={["three.js", "R3F", "gsap", "3D"]}
-        tagsLink={["https://tympanus.net/codrops/hub/tag/three.js/", "https://tympanus.net/codrops/hub/tag/r3f/", "https://tympanus.net/codrops/hub/tag/gsap/", "https://tympanus.net/codrops/hub/tag/3d/"]}
+        tags={['three.js', 'R3F', 'gsap', '3D']}
+        tagsLink={[
+          'https://tympanus.net/codrops/hub/tag/three.js/',
+          'https://tympanus.net/codrops/hub/tag/r3f/',
+          'https://tympanus.net/codrops/hub/tag/gsap/',
+          'https://tympanus.net/codrops/hub/tag/3d/',
+        ]}
       />
       <div className="fixed inset-0 w-full h-screen max-md:h-dvh z-0">
         <Canvas
           gl={{
             antialias: true,
             alpha: false,
-            powerPreference: "high-performance",
+            powerPreference: 'high-performance',
           }}
           dpr={[1, 2]}
-          style={{ background: "#0a0a0a" }}
+          style={{ background: '#0a0a0a' }}
         >
           <Scene cameraAnimRef={cameraAnimRef} targetAnimRef={targetAnimRef} />
         </Canvas>
@@ -289,14 +294,14 @@ export default function CinematicSceneShowcase() {
               fill="none"
               className="text-white/60"
               style={{
-                filter: "drop-shadow(0 0 4px rgba(255,255,255,0.3))",
+                filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))',
               }}
             />
           </svg>
           <div
             className="w-1 h-1 rounded-full bg-white/40"
             style={{
-              boxShadow: "0 0 6px rgba(255,255,255,0.4)",
+              boxShadow: '0 0 6px rgba(255,255,255,0.4)',
             }}
           />
         </div>
@@ -310,7 +315,7 @@ export default function CinematicSceneShowcase() {
           <div
             ref={progressBarRef}
             className="absolute left-0 top-0 h-full bg-gradient-to-r from-cyan-400/60 to-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.5)]"
-            style={{ width: "0%" }}
+            style={{ width: '0%' }}
           />
         </div>
 
@@ -326,14 +331,14 @@ export default function CinematicSceneShowcase() {
           <div
             key={index}
             ref={(el) => {
-              textRefs.current[index] = el
+              textRefs.current[index] = el;
             }}
             className={`absolute max-md:w-full ${getPositionClasses(perspective.position)}`}
           >
-            <h2 className="text-[3vw] max-md:text-4xl font-bold leading-[1.1] mb-2 tracking-tight text-white drop-shadow-2xl">
+            <h2 className="text-[4vw] max-md:text-2xl font-bold leading-[1.1] mb-2 tracking-tight text-white drop-shadow-2xl">
               {perspective.title}
             </h2>
-            <p className="text-xl max-md:text-lg leading-[1.4] text-white/90 font-light drop-shadow-lg">
+            <p className="text-[1.25vw] max-md:text-l leading-[1.4] text-white/70 font-light drop-shadow-lg">
               {perspective.subtitle}
             </p>
           </div>
@@ -342,11 +347,11 @@ export default function CinematicSceneShowcase() {
 
       <div ref={smoothWrapperRef} id="smooth-wrapper" className="relative z-20">
         <div ref={smoothContentRef} id="smooth-content">
-          <div ref={containerRef} style={{ height: "900vh" }} />
+          <div ref={containerRef} style={{ height: '900vh' }} />
         </div>
       </div>
     </>
-  )
+  );
 }
 
-useGLTF.preload("/cyberpunk_skyscraper.glb")
+useGLTF.preload('/cyberpunk_skyscraper.glb');

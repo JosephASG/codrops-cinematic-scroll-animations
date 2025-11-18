@@ -21,7 +21,7 @@ if (typeof window !== 'undefined') {
 }
 
 function CyberpunkBuilding() {
-  const { scene } = useGLTF('/cyberpunk_skyscraper.glb');
+  const { scene } = useGLTF('./cyberpunk_skyscraper.glb');
 
   useEffect(() => {
     if (scene) {
@@ -354,4 +354,4 @@ export default function CinematicSceneShowcase() {
   );
 }
 
-useGLTF.preload('/cyberpunk_skyscraper.glb');
+useGLTF.preload('./cyberpunk_skyscraper.glb');

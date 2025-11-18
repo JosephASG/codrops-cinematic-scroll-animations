@@ -1,18 +1,18 @@
 import type { Perspective } from './types';
 
 export const images = [
-  '/img/img1.webp',
-  '/img/img2.webp',
-  '/img/img3.webp',
-  '/img/img4.webp',
-  '/img/img5.webp',
-  '/img/img6.webp',
-  '/img/img7.webp',
-  '/img/img8.webp',
-  '/img/img9.webp',
-  '/img/img10.webp',
-  '/img/img11.webp',
-  '/img/img12.webp',
+  './img/img1.webp',
+  './img/img2.webp',
+  './img/img3.webp',
+  './img/img4.webp',
+  './img/img5.webp',
+  './img/img6.webp',
+  './img/img7.webp',
+  './img/img8.webp',
+  './img/img9.webp',
+  './img/img10.webp',
+  './img/img11.webp',
+  './img/img12.webp',
 ];
 
 export const perspectives: Perspective[] = [

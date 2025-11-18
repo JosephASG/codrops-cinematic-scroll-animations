@@ -47,7 +47,7 @@ export function getPositionClasses(position: Perspective['position']): string {
     case 'left':
       return 'left-[20vh] top-1/2 -translate-y-1/2';
     case 'right':
-      return 'right-[20vh] top-1/2 -translate-y-1/2';
+      return 'right-20 top-1/2 -translate-y-1/2 max-md:left-1/2 max-md:-translate-x-1/2';
     case 'center':
       return 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center';
     case 'top-right':
@@ -66,10 +66,7 @@ export function getPositionClasses(position: Perspective['position']): string {
 /**
  * Creates cylinder geometry with positions, UVs, and indices
  */
-export function createCylinderGeometry(
-  gl: WebGLRenderingContext,
-  config: CylinderConfig
-) {
+export function createCylinderGeometry(gl: WebGLRenderingContext, config: CylinderConfig) {
   const { radius, height, radialSegments, heightSegments } = config;
 
   const positions: number[] = [];

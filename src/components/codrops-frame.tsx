@@ -19,7 +19,7 @@ interface CodropsFrameProps {
 export function CodropsFrame({
   demoTitle = '',
   articleUrl = 'https://tympanus.net/codrops/?p=103299',
-  githubUrl = 'https://github.com/codrops',
+  githubUrl = 'https://github.com/JosephASG/codrops-cinematic-scroll-animations',
   hubUrl = 'https://tympanus.net/codrops/hub',
   demos = [
     { label: 'Demo 1', href: '#', current: true },

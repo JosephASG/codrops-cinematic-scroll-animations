@@ -2,7 +2,7 @@
 
 Demos for the tutorial on how to build smooth, immersive 3D scroll experiences using GSAP, WebGL, and Three.js. The first demo focuses on shader-based depth — a rotating WebGL cylinder surrounded by reactive particles — while the second turns a 3D scene into a scroll-controlled showcase with moving cameras and animated typography.
 
-![Image Title](https://generative-placeholders.glitch.me/image?width=800&height=600")
+![Image Title](https://tympanus.net/codrops/wp-content/uploads/2025/11/cinematicGSAP_featured-1.jpeg)
 
 [Article on Codrops](https://tympanus.net/codrops/?p=103299)
 
@@ -10,12 +10,13 @@ Demos for the tutorial on how to build smooth, immersive 3D scroll experiences u
 
 ## Installation
 
-```bash
+```
 # Install dependencies
 npm install
 
 # Start the development server
 npm run dev
+```
 
 ## Credits
 

@@ -24,7 +24,7 @@ npm run dev
 
 ## Misc
 
-Follow _Author_: [Twitter](), [Instagram](), [GitHub]() ...
+Follow _Author_: [Twitter](https://x.com/JosephSan2301), [Instagram](https://www.instagram.com/joseph_santaamaria/), [GitHub](https://github.com/JosephASG), [LinkedIn](https://www.linkedin.com/in/joseph-san/)
 
 Follow Codrops: [X](http://www.x.com/codrops), [Facebook](https://www.facebook.com/codrops), [Instagram](https://www.instagram.com/codropsss/), [LinkedIn](https://www.linkedin.com/company/codrops/), [GitHub](https://github.com/codrops)
 

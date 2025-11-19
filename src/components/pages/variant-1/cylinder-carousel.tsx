@@ -388,18 +388,19 @@ export function CylinderCarousel() {
 
       <CodropsFrame
         demoTitle="Cinematic 3D Scroll Experiences with GSAP"
-        articleUrl="https://tympanus.net/codrops/?p=12345"
-        githubUrl="https://github.com/codrops"
+        articleUrl="https://tympanus.net/codrops/?p=103299"
+        githubUrl="https://github.com/JosephASG/codrops-cinematic-scroll-animations"
         demos={[
           { label: 'Demo 1', href: '/', current: true },
           { label: 'Demo 2', href: '/variant-2', current: false },
         ]}
-        tags={['gsap', 'ogl', 'webgl', 'scroll']}
+        tags={['gsap', 'ogl', 'webgl', 'scroll', '3d']}
         tagsLink={[
           'https://tympanus.net/codrops/hub/tag/gsap/',
           'https://tympanus.net/codrops/hub/tag/ogl/',
           'https://tympanus.net/codrops/hub/tag/webgl/',
           'https://tympanus.net/codrops/hub/tag/scroll/',
+          'https://tympanus.net/codrops/hub/tag/3d/',
         ]}
       />
 

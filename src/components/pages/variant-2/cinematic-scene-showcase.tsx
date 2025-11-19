@@ -255,8 +255,8 @@ export default function CinematicSceneShowcase() {
       <Loader isLoading={isLoading} className="bg-[#0a0a0a]" classNameLoader="bg-[#f2f2f2]" />
       <CodropsFrame
         demoTitle="Cinematic 3D Scroll Experiences with GSAP"
-        articleUrl="https://tympanus.net/codrops/?p=12345"
-        githubUrl="https://github.com/codrops"
+        articleUrl="https://tympanus.net/codrops/?p=103299"
+        githubUrl="https://github.com/JosephASG/codrops-cinematic-scroll-animations"
         demos={[
           { label: 'Demo 1', href: '/', current: false },
           { label: 'Demo 2', href: '/variant-2', current: true },

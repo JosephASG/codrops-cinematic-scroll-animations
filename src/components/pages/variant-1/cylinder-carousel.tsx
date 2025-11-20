@@ -106,15 +106,27 @@ export function CylinderCarousel() {
 
     const geometry = createCylinderGeometry(gl, cylinderConfig);
 
+    const maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d')!;
     const numImages = images.length;
 
-    canvas.width = imageConfig.width * numImages;
-    canvas.height = imageConfig.height;
+    const totalWidthOriginal = imageConfig.width * numImages;
+    const heightOriginal = imageConfig.height;
+
+    const scale = Math.min(1, maxTextureSize / totalWidthOriginal);
+
+    canvas.width = Math.floor(totalWidthOriginal * scale);
+    canvas.height = Math.floor(heightOriginal * scale);
 
     let loadedImages = 0;
     const imageElements: HTMLImageElement[] = [];
+
+    const circumference = 2 * Math.PI * cylinderConfig.radius;
+    const textureAspectRatio = imageConfig.height / (imageConfig.width * images.length);
+    const idealHeight = circumference * textureAspectRatio;
+    const heightCorrection = idealHeight / cylinderConfig.height;
 
     const handleResize = () => {
       if (rendererRef.current && cameraRef.current && cylinderRef.current) {
@@ -132,7 +144,7 @@ export function CylinderCarousel() {
         // Scale cylinder to fit viewport without overflow
         cylinderRef.current.scale.set(
           newDimensions.cylinderScale,
-          newDimensions.cylinderScale,
+          newDimensions.cylinderScale * heightCorrection,
           newDimensions.cylinderScale
         );
 
@@ -155,7 +167,22 @@ export function CylinderCarousel() {
         if (loadedImages === numImages) {
           // Draw all images to canvas
           imageElements.forEach((img, i) => {
-            drawImageCover(ctx, img, i * imageConfig.width, 0, imageConfig.width, imageConfig.height);
+            // Calculamos el ancho y alto ajustados por la escala
+            const drawWidth = Math.floor(imageConfig.width * scale);
+            const drawHeight = Math.floor(imageConfig.height * scale);
+
+            // Calculamos la posición X ajustada
+            const xPos = i * drawWidth;
+
+            // Llamamos a tu función de utils.ts con los nuevos valores
+            drawImageCover(
+              ctx,
+              img,
+              xPos,      // x
+              0,         // y
+              drawWidth, // w
+              drawHeight // h
+            );
           });
 
           // Create texture

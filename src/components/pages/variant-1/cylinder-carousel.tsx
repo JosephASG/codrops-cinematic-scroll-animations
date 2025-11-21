@@ -106,19 +106,27 @@ export function CylinderCarousel() {
 
     const geometry = createCylinderGeometry(gl, cylinderConfig);
 
-    const maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+    const hardwareLimit = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+
+    const isMobileDevice = window.innerWidth < 768;
+    const safeLimit = isMobileDevice ? 2048 : Math.min(hardwareLimit, 8192);
 
     const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d', {
+      willReadFrequently: false,
+      alpha: false
+    })!;
     const numImages = images.length;
 
     const totalWidthOriginal = imageConfig.width * numImages;
     const heightOriginal = imageConfig.height;
 
-    const scale = Math.min(1, maxTextureSize / totalWidthOriginal);
+    const scale = Math.min(1, safeLimit / totalWidthOriginal);
 
     canvas.width = Math.floor(totalWidthOriginal * scale);
     canvas.height = Math.floor(heightOriginal * scale);
+
+    console.log(`[Optimization] Device Limit: ${hardwareLimit}px | Safe Used: ${safeLimit}px | Scale: ${scale}`);
 
     let loadedImages = 0;
     const imageElements: HTMLImageElement[] = [];
@@ -164,33 +172,35 @@ export function CylinderCarousel() {
         imageElements[index] = img;
         loadedImages++;
 
+        const totalCanvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+
         if (loadedImages === numImages) {
           // Draw all images to canvas
           imageElements.forEach((img, i) => {
-            // Calculamos el ancho y alto ajustados por la escala
-            const drawWidth = Math.floor(imageConfig.width * scale);
-            const drawHeight = Math.floor(imageConfig.height * scale);
+            const xStartExact = (i / numImages) * totalCanvasWidth;
+            const xEndExact = ((i + 1) / numImages) * totalCanvasWidth;
 
-            // Calculamos la posición X ajustada
-            const xPos = i * drawWidth;
+            const xPos = Math.floor(xStartExact);
+            const xEnd = Math.floor(xEndExact);
 
-            // Llamamos a tu función de utils.ts con los nuevos valores
+            const drawWidthActual = xEnd - xPos;
             drawImageCover(
               ctx,
               img,
-              xPos,      // x
-              0,         // y
-              drawWidth, // w
-              drawHeight // h
+              xPos,
+              0,
+              drawWidthActual,
+              canvasHeight
             );
           });
 
-          // Create texture
           const texture = new Texture(gl, {
             wrapS: gl.CLAMP_TO_EDGE,
             wrapT: gl.CLAMP_TO_EDGE,
             minFilter: gl.LINEAR,
             magFilter: gl.LINEAR,
+            generateMipmaps: false
           });
 
           texture.image = canvas;

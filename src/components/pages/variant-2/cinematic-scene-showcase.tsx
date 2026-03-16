@@ -270,7 +270,7 @@ export default function CinematicSceneShowcase() {
           'https://tympanus.net/codrops/hub/tag/3d/',
         ]}
       />
-      <div className="fixed inset-0 w-full h-screen max-md:h-dvh z-0">
+      <div className="fixed inset-0 w-full h-svh z-0">
         <Canvas
           gl={{
             antialias: true,
@@ -307,7 +307,7 @@ export default function CinematicSceneShowcase() {
         </div>
       </div>
 
-      <div className="fixed left-1/2 -translate-x-1/2 bottom-[13vh] z-40 pointer-events-none w-[250px]">
+      <div className="fixed left-1/2 -translate-x-1/2 bottom-[13svh] z-40 pointer-events-none w-[250px]">
         <div className="absolute -top-3 left-0 w-3 h-3 border-l border-t border-white/20" />
         <div className="absolute -top-3 right-0 w-3 h-3 border-r border-t border-white/20" />
 
@@ -347,7 +347,7 @@ export default function CinematicSceneShowcase() {
 
       <div ref={smoothWrapperRef} id="smooth-wrapper" className="relative z-20">
         <div ref={smoothContentRef} id="smooth-content">
-          <div ref={containerRef} style={{ height: '900vh' }} />
+          <div ref={containerRef} style={{ height: '900svh' }} />
         </div>
       </div>
     </>

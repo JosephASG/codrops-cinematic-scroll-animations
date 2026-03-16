@@ -72,18 +72,12 @@ export function CylinderCarousel() {
 
     const getResponsiveDimensions = () => {
       const width = window.innerWidth;
-      // const height = window.innerHeight
       const isMobile = width < 768;
       const isTablet = width >= 768 && width < 1024;
 
-      // Set maximum cylinder radius based on screen size to prevent overflow
       const maxRadius = isMobile ? 1.8 : isTablet ? 2.2 : 2.5;
       const cylinderHeight = isMobile ? 0.8 : isTablet ? 1.0 : 1.2;
-
-      // Adjust camera distance based on screen size
       const cameraZ = isMobile ? 6 : isTablet ? 7 : 8;
-
-      // Adjust FOV for better framing on mobile
       const fov = isMobile ? 50 : 45;
 
       return {
@@ -97,7 +91,11 @@ export function CylinderCarousel() {
 
     const dimensions = getResponsiveDimensions();
 
-    const camera = new Camera(gl, { fov: dimensions.fov });
+    const cameraOptions: any = { fov: dimensions.fov };
+    if (dimensions.isMobile) {
+      cameraOptions.aspect = window.innerWidth / window.innerHeight; // Solo en mobile
+    }
+    const camera = new Camera(gl, cameraOptions);
     camera.position.set(0, 0, dimensions.cameraZ);
     cameraRef.current = camera;
 
@@ -126,8 +124,6 @@ export function CylinderCarousel() {
     canvas.width = Math.floor(totalWidthOriginal * scale);
     canvas.height = Math.floor(heightOriginal * scale);
 
-    console.log(`[Optimization] Device Limit: ${hardwareLimit}px | Safe Used: ${safeLimit}px | Scale: ${scale}`);
-
     let loadedImages = 0;
     const imageElements: HTMLImageElement[] = [];
 
@@ -136,32 +132,50 @@ export function CylinderCarousel() {
     const idealHeight = circumference * textureAspectRatio;
     const heightCorrection = idealHeight / cylinderConfig.height;
 
+    // Store the initial window width to track horizontal changes
+    let lastWidth = window.innerWidth;
+
     const handleResize = () => {
       if (rendererRef.current && cameraRef.current && cylinderRef.current) {
+        const currentWidth = window.innerWidth;
         const newDimensions = getResponsiveDimensions();
 
-        // Update renderer size
-        rendererRef.current.setSize(window.innerWidth, window.innerHeight);
+        // 1. Mobile Address Bar Jump Prevention
+        // If it's a mobile device and the width hasn't changed, it means only the URL bar hid/showed.
+        // I abort the resize here to prevent the camera from zooming in and cropping the cylinder.
+        if (newDimensions.isMobile && currentWidth === lastWidth) {
+          return;
+        }
+        lastWidth = currentWidth;
 
-        // Update camera with responsive FOV and aspect ratio
+        // Update renderer and camera to actual measurements
+        rendererRef.current.setSize(currentWidth, window.innerHeight);
+
         cameraRef.current.perspective({
           fov: newDimensions.fov,
-          aspect: window.innerWidth / window.innerHeight,
+          aspect: currentWidth / window.innerHeight,
         });
 
-        // Scale cylinder to fit viewport without overflow
-        cylinderRef.current.scale.set(
-          newDimensions.cylinderScale,
-          newDimensions.cylinderScale * heightCorrection,
-          newDimensions.cylinderScale
-        );
+        // 2. Responsive Cylinder Scaling
+        // I apply the height correction on mobile to prevent stretched images,
+        // but keep the original uncompressed scale for the panoramic desktop look.
+        if (newDimensions.isMobile) {
+          cylinderRef.current.scale.set(
+            newDimensions.cylinderScale,
+            newDimensions.cylinderScale * heightCorrection,
+            newDimensions.cylinderScale
+          );
+        } else {
+          cylinderRef.current.scale.set(
+            newDimensions.cylinderScale,
+            newDimensions.cylinderScale,
+            newDimensions.cylinderScale
+          );
+        }
 
-        // Update initial camera z position for proper framing
         if (cameraAnimRef.current.z === 8 || cameraAnimRef.current.z === 7 || cameraAnimRef.current.z === 6) {
           cameraAnimRef.current.z = newDimensions.cameraZ;
         }
-
-        console.log('[v0] Resized - Scale:', newDimensions.cylinderScale, 'Camera Z:', newDimensions.cameraZ);
       }
     };
 
@@ -406,7 +420,7 @@ export function CylinderCarousel() {
         }
       };
       img.onerror = () => {
-        console.error('[v0] Failed to load image:', imageSrc);
+        console.error('Failed to load image:', imageSrc);
         setIsLoading(false);
       };
       img.src = imageSrc;
@@ -441,7 +455,7 @@ export function CylinderCarousel() {
         ]}
       />
 
-      <div className="fixed inset-0 w-full h-screen z-0">
+      <div className="fixed inset-0 w-full h-svh z-0">
         <canvas ref={canvasRef} className="w-full h-full" style={{ display: 'block' }} />
       </div>
 
@@ -479,7 +493,7 @@ export function CylinderCarousel() {
 
       <div ref={smoothWrapperRef} id="smooth-wrapper" className="relative z-20">
         <div ref={smoothContentRef} id="smooth-content">
-          <div ref={containerRef} style={{ height: '500vh' }} />
+          <div ref={containerRef} style={{ height: '500svh' }} />
         </div>
       </div>
     </>
